@@ -103,7 +103,7 @@ int main()
     {
         for(const int F : numFrascos)
         {
-            ofstream out("tempos/usando" + to_string(F) + "Frascos.csv"); 
+            ofstream out("tempos/usando" + to_string(F) + "Frascos" + "0" + to_string(i) + ".csv"); 
             out << "Tamanho da Instancia," << "Tempo de CPU Total" << endl;
             for(const int B : tamanhoDeBits)
             {
