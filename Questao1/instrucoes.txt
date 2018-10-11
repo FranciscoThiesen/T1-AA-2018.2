@@ -1,0 +1,10 @@
+Instruções de como gerar os tempos na sua máquina:
+1 - rodar python implementacaoUsandoLogFrascos.py ( fiz em python 3)
+2 - Compilar o implementacaoUsandoKFrascos.cpp na sua máquina. 
+    2.1 - Na minha utilizei (g++ implementacaoUsandoKFrascos.cpp -std=c++14 -o implementacaoUsandoKFrascos)
+    OBS: Não compilar com flags como -O2 ou -O3, porque ele irá otimizar um loop que faz "todo o trabalho"
+3 - Rodar ./implementacaoUsandoKFrascos recém-compilado no g++.
+
+Os tempos de execução estarão na pasta tempos.
+As instâncias utilizadas estao na pasta instancias.
+

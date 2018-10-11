@@ -5,12 +5,12 @@
 using namespace std;
 using namespace std::chrono;
 
-inline void imprimeGrupo(int tamanhoGrupo, unsigned long long valorGrupo)
+inline void imprimeGrupo(int tamanhoGrupo, unsigned int valorGrupo)
 {
     deque<int> digs;
     while(valorGrupo > 0) 
     {
-        digs.push_front(valorGrupo & 1ULL);
+        digs.push_front(valorGrupo & 1u);
         valorGrupo >>= 1;
     }
     while((int) digs.size() < tamanhoGrupo)
@@ -22,9 +22,9 @@ inline void imprimeGrupo(int tamanhoGrupo, unsigned long long valorGrupo)
 }
 
 // É necessário tomar cuidado com as flags, para que o GCC nao otimize essa funcao
-inline unsigned long long resolveParaUmGrupo(unsigned long long valorDoGrupo)
+unsigned int resolveParaUmGrupo(unsigned int valorDoGrupo)
 {
-    unsigned long long X = 0;
+    unsigned int X = 0;
     while(X < valorDoGrupo) ++X;
     return X;
 }
@@ -35,7 +35,7 @@ pair<bool, unsigned long long> resolveComKFrascos(int numeroDeBits, int numeroDe
     // Vou separar o inteiro de X bits, em K inteiros de X / K bits e resolver pra cada inteiro separadamente
     // A ideia de separar o numero em K inteiros tem a intencao de fazer cada inteiro ser < 2^64, e com isso podemos
     // Usar o tipo unsigned long long ao inves de usar bitsets
-    cout << numeroDeBits << " " << numeroDeFrascos << " " << (int) bits.size() << endl;
+    // cout << numeroDeBits << " " << numeroDeFrascos << " " << (int) bits.size() << endl;
     if(numeroDeBits / numeroDeFrascos > 32)
     {
         // Se tiver mais de 64 bits em cada grupo, o algoritmo vai levar uma quantidade enorme de segundos
@@ -46,53 +46,55 @@ pair<bool, unsigned long long> resolveComKFrascos(int numeroDeBits, int numeroDe
     unsigned long long totalComparacoes = 0;
     
     // Vamos imprimir o inteiro recebido///////////////////////////////////
-    cout << "Inteiro recebido " << endl;
+    /* cout << "Inteiro recebido " << endl;
     for(int i = 0; i < numeroDeBits; ++i) {
         if(bits[i]) cout << 1;
         else cout << 0;
     }
-    cout << endl;
+    cout << endl; */
     /////////////////////////////////////////////////////////////////////// 
     
     // Gerando as potencias de 2 necessarias///////////////////////////////
-    vector<unsigned long long> pot2(32);
-    pot2[0] = 1ULL;
-    for(int i = 1; i < 32; ++i) pot2[i] = (pot2[i - 1] * 2ULL); 
+    vector<unsigned int> pot2(32);
+    pot2[0] = 1u;
+    for(int i = 1; i < 32; ++i) pot2[i] = (pot2[i - 1] << 1u); 
     ///////////////////////////////////////////////////////////////////////
-    
     // Preenchendo os subgrupos ///////////////////////////////////////////
     int bitsPorGrupo = numeroDeBits / numeroDeFrascos;
-    vector<unsigned long long> grupo(numeroDeFrascos, 0);
+    vector<unsigned int> grupo(numeroDeFrascos, 0);
     reverse(bits.begin(), bits.end() );
     for(int i = 0; i < numeroDeBits; ++i)
     {
         if(bits[i] == true)
         {
-            grupo[i / bitsPorGrupo] += pot2[i % 32];
+            grupo[i / bitsPorGrupo] += pot2[i % bitsPorGrupo];
         }
     }
     //////////////////////////////////////////////////////////////////////
-
-    // Imprimindo os SubGrupos
+    /* / Imprimindo os SubGrupos
     for(int frasco = 0; frasco < numeroDeFrascos; ++frasco)
     {
         cout << "Imprimindo o grupo " << frasco + 1 << endl;
         imprimeGrupo(bitsPorGrupo, grupo[frasco] );
     }
     //////////////////////////////////////////////////////////////////////
-    
+    */
     // Resolvendo o problema para cada subgrupo //////////////////////////
     for(int frasco = 0; frasco < numeroDeFrascos; ++frasco)
     {
         totalComparacoes += resolveParaUmGrupo(grupo[frasco]);
     }
     //////////////////////////////////////////////////////////////////////
-    
     return make_pair(true, totalComparacoes);
 }
 
 constexpr array<int, 5> numFrascos       = {1, 2, 4, 8, 16};
 constexpr array<int, 5> tamanhoDeBits    = {32, 64, 128, 196, 256};
+
+/* Observacoes gerais
+ * 1 - Optei por nao rodar para instancias onde frascos * 2 ^ ( N / frascos ) > 2^32... Pois não iria acabar em um tempo razoavel
+ * 2 - É MUITO IMPORTANTE não compilar com a flag -O2, se não ele otimiza o código e o tempo de CPU não vai estar "honesto", porque ele não vai fazer todas as operacoes
+ */
 
 int main()
 {
@@ -122,7 +124,6 @@ int main()
                     }
                     testes.push_back(b);
                 }
-                cout << numInstancias << endl;
                 // quick-check
                 auto ans = resolveComKFrascos(B, F, testes[0]);
                 if(ans.first == false)
