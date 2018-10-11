@@ -89,7 +89,7 @@ pair<bool, unsigned long long> resolveComKFrascos(int numeroDeBits, int numeroDe
 }
 
 constexpr array<int, 5> numFrascos       = {1, 2, 4, 8, 16};
-constexpr array<int, 5> tamanhoDeBits    = {32, 64, 128, 196, 256};
+constexpr array<int, 5> tamanhoDeBits    = {32, 64, 128, 192, 256};
 
 /* Observacoes gerais
  * 1 - Optei por nao rodar para instancias onde frascos * 2 ^ ( N / frascos ) > 2^32... Pois não iria acabar em um tempo razoavel
