@@ -3,7 +3,6 @@
 #include <time.h>
 #pragma warning(disable : 4996)
 
-
 int** MakeMATRIX(int ROW, int COL,int tipo)
 {
 	int j = 0;
@@ -103,7 +102,7 @@ void matrixMultiplication()
 		printf("Time taken to multiply Matrix  is: %f\n\n\n", total_time);
 		fprintf(fp, "Tamanho da matriz %d e tempo de multiplicacao %lf", SIZE[s], total_time);
 	}
-	}
+}
 	
 
 void matrixMultiplication2(int **M1,int **M2,int **M3,int SIZE)

@@ -1,0 +1,60 @@
+Trabalho 1 de AA 2018.2
+Grupo: Francisco & Lauro
+
+
+Questão 1.1
+
+Algoritmo que garante que o número de quedas é da ordem de O(sqrt(n)) e que a
+determinação do valor é garantida.
+
+Descrição do Algoritmo:
+
+Step 1 -> Testar alturas múltiplas de sqrt(N) até que o primeiro frasco quebre.
+Sabemos que essa altura pode ser escrita da forma X * sqrt(N), com X >= 1
+
+Step 2 -> Sabendo que o primeiro frasco quebrou na altura hQuebra = X * sqrt(N)
+e que ele não quebrou em (X - 1) * sqrt(N), vamos utilizar o segundo frasco
+para testar todas as alturas no intervalo semiaberto ( (X - 1) * sqrt(N), X
+* sqrt(N) ], começando da menor altura e aumentando de 1 em 1. A altura em que
+o frasco 2 quebrar é a altura mínima da qual um frasco quebra.
+
+
+Corretude:
+Como sabemos que existe uma altura crítica no intervalo [1, N], sabemos que
+existe um primeiro múltiplo de sqrt(N), para qual x * sqrt(N) >= alturaCritica.
+Após encontrar esse primeiro múltiplo, ficamos com um intervalo de tamanho =
+sqrt(N) para percorrer de maneira crescente a fim de estipular a primeira
+altura desse intervalo em que o frasco quebra. Essa altura está no intervalo de
+tamanho sqrt(N) por construção.
+
+Análise de complexidade:
+
+Step 1 -> Sabemos que a quantidade de múltiplos de sqrt(N) <= N é => sqrt(N).
+Isso nos diz que serão realizados no máximo sqrt(N) testes na primeira parte.
+
+Step 2 -> O intervalo no qual serão realizados testes em todas as alturas até
+que seja encontrada a altura de quebra tem tamanho exatamente igual a sqrt(N).
+Isso também nos diz que serão realizados no máximo sqrt(N) testes na segunda
+parte.
+
+Complexidade total: O(sqrt(N)) + O(sqrt(N)) = O(sqrt(N))
+
+
+
+Questão 1.2
+
+Algoritmo para 3 Frascos. 
+
+Considere que a altura de quebra que queremos
+descobrir pode ser escrita com um número de bits que é múltiplo de 3. ( Se não
+for múltiplo de 3, podemos colocar alguns 0's a esquerda para tornar múltiplo
+de 3).
+
+Vamos separar a altura crítica em 3 partes iguais.
+
+hCrit = 010101...|010001...|100011...
+
+A ideia consiste em utilizar cada frasco para descobrir uma das partes da
+altura crítica.
+
+
