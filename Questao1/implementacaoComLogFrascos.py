@@ -13,7 +13,7 @@ def solveUsingLogBottles(maxBits, ans):
         elif mid < ans:
             lo = mid + 1
         else:
-            hi = mid - 1
+            hi = mid
 
 pathInputPrefix = 'instancias/bignum_'
 pathOutput = 'tempos/usandoLogFrascos.csv'

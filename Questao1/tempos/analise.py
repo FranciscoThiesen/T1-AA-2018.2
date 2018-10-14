@@ -2,16 +2,13 @@ import numpy as np
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 
-def fit_func(x, a, b, c):
-    return a * np.exp(-b * x) + c
-
 def func(x, a, b):
     return a*x + b
 
 
 x = []
 y = []
-f = open("usando16Frascos01.csv", "r")
+f = open("usandoLogFrascos.csv", "r")
 fst = True
 for line in f:
     string = line.split(',')
@@ -23,7 +20,7 @@ for line in f:
         fst = False
 
 x = np.array(x)
-y = np.array(np.log(y))
+y = np.array(y)
 
 print(x)
 print(y)
@@ -31,7 +28,10 @@ print(y)
 popt, pcov= curve_fit(func, x, y)
 
 plt.figure()
-plt.plot(x, y, 'ko', label="original")
-plt.plot(x, func(x, *popt), '-', label="fit")
+plt.xlabel("Tamanho da instancia (bits) ")
+plt.ylabel("Tempo de CPU(s) -> 50 instancias")
+plt.title("Analise dos tempos para log Frascos")
+plt.plot(x, y, 'ko', label="experimentos")
+plt.plot(x, func(x, *popt), '-', label="fit linear")
 plt.legend()
 plt.show()
