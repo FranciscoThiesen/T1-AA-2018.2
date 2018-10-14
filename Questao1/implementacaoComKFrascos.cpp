@@ -27,7 +27,9 @@ inline void imprimeGrupo(int tamanhoGrupo, unsigned int valorGrupo)
 }
 
 
-/* Essa é a função que realiza o maior trabalho do algoritmo.
+/* Essa é a função que realiza que realiza as comparacoes propriamente ditas.
+ * Utilizamos a as propriedades descritas no relatório, para compararar somente
+ * uma parte especifica dos bits da altura.
  * Dado que um determinado grupo de bits da resposta tem valor 011101010...
  * Vamos comecar da altura 0, e ir aumentando a altura um a um, até chegar na
  * altura de quebra
@@ -44,15 +46,13 @@ unsigned int resolveParaUmGrupo(unsigned int valorDoGrupo)
 }
 
 
-
-
 /* Essa funcao tem como papel coordenar a execução do algoritmo descrito para
  * K frascos. Ela irá quebrar os bits da altura total em grupos de 32 bits para
  * que possamos chamar a funcao resolverParaUmGrupo() descrita acima para cada
  * um dos grupos de bits individualmente
  */
 
-string resolveComKFrascos(int numeroDeBits, int numeroDeFrascos, vector<bool> bits)
+inline string resolveComKFrascos(const int numeroDeBits, const int numeroDeFrascos, vector<bool>& bits)
 {
     // garantindo que nao teremos mais de 32 bits por grupo, o que tornaria a 
     // instancia grande demais para rodar no tempo esperado
@@ -76,13 +76,8 @@ string resolveComKFrascos(int numeroDeBits, int numeroDeFrascos, vector<bool> bi
     for(int i = 1; i < 32; ++i) pot2[i] = (pot2[i - 1] << 1u); 
     ///////////////////////////////////////////////////////////////////////
     // Preenchendo os subgrupos ///////////////////////////////////////////
-    int bitsPorGrupo = numeroDeBits / numeroDeFrascos;
+    const int bitsPorGrupo = numeroDeBits / numeroDeFrascos;
     vector<unsigned int> grupo(numeroDeFrascos, 0);
-    
-    // So para representarmos a resposta da maneira mais conveniente
-    // ( do menos significativo para o mais significativo )
-    reverse(bits.begin(), bits.end());
-    
     
     // Aqui estamos distribuindo os bits da resposta pelos K grupos de bits
     for(int i = 0; i < numeroDeBits; ++i)
@@ -104,11 +99,11 @@ string resolveComKFrascos(int numeroDeBits, int numeroDeFrascos, vector<bool> bi
     
     // Aqui realizamos a juncao da resposta dos subproblemas
     string resultado; 
-    for(int frasco = numeroDeFrascos - 1; frasco >= 0; --frasco)
+    for(const auto& val : resposta)
     {
         for(unsigned int i = 0; i < 32; ++i)
         {
-            resultado += '0' + !!(resposta[frasco] & (1u << i) );
+            resultado += '0' + !!(val & (1u << i) );
         }
     }
     //////////////////////////////////////////////////////////////////////
@@ -125,7 +120,6 @@ constexpr array<int, 5> tamanhoDeBits    = {32, 64, 128, 192, 256};
 
 
 
-// Na main esta a logica de chamar todas as combinacoes numFrascos X tamanhoDeBits que rodam em um tempo razoável
 int main()
 {
     string pathPrefix = "instancias/bignum_";
@@ -133,6 +127,7 @@ int main()
     {
         for(const int F : numFrascos)
         {
+            
             ofstream out("tempos/usando" + to_string(F) + "Frascos" + "0" + to_string(i) + ".csv"); 
             out << "Tamanho da Instancia," << "Tempo de CPU Total" << endl;
             for(const int B : tamanhoDeBits)

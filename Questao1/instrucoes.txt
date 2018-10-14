@@ -3,6 +3,9 @@ Instruções de como gerar os tempos na sua máquina:
 2 - Compilar o implementacaoUsandoKFrascos.cpp na sua máquina. 
     2.1 - Na minha utilizei (g++ implementacaoUsandoKFrascos.cpp -std=c++14 -o implementacaoUsandoKFrascos)
     OBS: Não compilar com flags como -O2 ou -O3, porque ele irá otimizar um loop que faz "todo o trabalho"
+    Cuidado: Rodar o código irá atualizar os tempos encontrados na pasta tempos. Se for fazer isso, talvez seja
+    melhor salvar os tempos antigos numa pasta auxiliar.
+
 3 - Rodar ./implementacaoUsandoKFrascos recém-compilado no g++.
 
 Os tempos de execução estarão na pasta tempos.
