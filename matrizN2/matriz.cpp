@@ -95,7 +95,7 @@ inline matrix fastProduct(const matrix& M1, const matrix& M2)
             b = max(M2.mat[i][j], b);
         }
     }
-    long long x = (dim - 1) * a * b + 1;
+    long long x = dim * a * b + 1;
     
     // Vamos agora calcular os bk's, utilizando o metodo de horner
     vector<long long> B(dim, 0);
@@ -156,8 +156,8 @@ inline matrix fastProduct(const matrix& M1, const matrix& M2)
 
 int main()
 {
-    constexpr int testSize = 11; // constante que define o tamanho da matriz a ser testada
-    constexpr int maxValue = 2;  // constante que define o valor maximo permitido para um valor da matriz
+    constexpr int testSize = 7; // constante que define o tamanho da matriz a ser testada
+    constexpr int maxValue = 1;  // constante que define o valor maximo permitido para um valor da matriz
     
     matrix M1(testSize, maxValue), M2(testSize, maxValue);
     
