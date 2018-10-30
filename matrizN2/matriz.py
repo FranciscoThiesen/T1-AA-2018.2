@@ -2,7 +2,7 @@ from math import *
 from timeit import default_timer as timer
 import numpy as np
 import random
-
+import csv
 class Matrix:
     def __init__(self, N, low = 0, high = 1):
         self.N = N
@@ -79,7 +79,7 @@ def fastProd(M1, M2):
     return c
 
 
-def genTest(N, low, high):
+def genTest(N, low = 0, high = 1):
     M1 = Matrix(N, low, high)
     M2 = Matrix(N, low, high)
     # vamos fazer a multiplicacao n^3 para checar a corretude
@@ -93,13 +93,21 @@ def genTest(N, low, high):
     tempoFast = end - start
     tempoSlow = str(tempoSlow)
     tempoFast = str(tempoFast)
-    if M3.Mat == M4.Mat:
-        print("O resultado do fastProd esta de acordo com o pedestre\n")
-    else:
-        print("O resultado do fastProd esta inconsistente com o pedestre\n")
-    print("O metodo pedestre demorou um total de " + tempoSlow + " segundos ")
-    print("O metodo rapido demorou um total de " + tempoFast + " segundos ")
-    
+    return [tempoSlow, tempoFast]
 
-genTest(100, 0, 1)
+outputfile = 'tempoMatMult.csv'
+csvfile = open(outputfile, 'w')
+fieldnames = ['Dimensao das Matrizes', 'Valor maximo permitido', 'Tempo pedestre', 'Tempo artigo']
+writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
+writer.writeheader()
 
+tamanhosDeTeste = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+valorMaximoDeMatriz = [1, 10, 100, 1000]
+
+for tam in tamanhosDeTeste:
+    dim = str(tam) + 'x' + str(tam)
+    for val in valorMaximoDeMatriz:
+        ret = genTest(tam, 0, val)
+        writer.writerow({'Dimensao das Matrizes' : dim, 'Valor maximo permitido' : str(val), 'Tempo pedestre' : ret[0], 'Tempo artigo' : ret[1]})
+
+csvfile.close()
